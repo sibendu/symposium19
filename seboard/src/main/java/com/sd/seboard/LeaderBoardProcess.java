@@ -61,7 +61,7 @@ public class LeaderBoardProcess {
 			for (int k = i + 1; k < persons.size(); k++) {
 				person2 = persons.get(k);
 				combinationChecked++;
-				System.out.println("Checking compatibility for " + person1 + " & " + person2);
+				//System.out.println("Checking compatibility for " + person1 + " & " + person2);
 
 				ArrayList<String> personsCombination = new ArrayList<String>();
 				personsCombination.add(person1);

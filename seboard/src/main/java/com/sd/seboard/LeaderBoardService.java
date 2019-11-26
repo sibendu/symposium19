@@ -28,20 +28,22 @@ public class LeaderBoardService {
 	public ResponseEntity<ArrayList<SEBoardRecord>> getSEBoard() throws IOException {
 		System.out.println("SE Board proces invoked");
 		ArrayList<SEBoardRecord> seBoard = new ArrayList<SEBoardRecord>();
+		Connection conn =null;
 		try {
 			
 			SymposiumDAO dao = new SymposiumDAO();
-			Connection conn = dao.getConnection();
+			conn = dao.getConnection();
 
 			ArrayList<String> persons = dao.getEmployees(conn);
 			ArrayList<Picture> pictures = dao.getPictures(conn);
 			
 			conn.close();
+			System.out.println("Closed connection...");
 			
 			System.out.println("Employee master has "+persons.size()+" records");
-			for (int i = 0; i < persons.size(); i++) {
-				System.out.print(persons.get(i) + " , ");
-			}
+//			for (int i = 0; i < persons.size(); i++) {
+//				System.out.print(persons.get(i) + " , ");
+//			}
 			System.out.println("\n*************");
 			System.out.println("Pictures records = "+pictures.size());
 			System.out.println("\n*************");
@@ -60,6 +62,15 @@ public class LeaderBoardService {
 				}
 			}
 		}catch(Exception e) {
+			e.printStackTrace();
+			try {
+				if(conn != null) {
+					conn.close();
+					System.out.println("Closed connection inside error block");
+				}
+			}catch(Exception ee) {
+				System.out.println("Could not close connection : "+ee.getMessage());
+			}
 			
 		}
 		return new ResponseEntity<>(seBoard, HttpStatus.OK);
